@@ -1,8 +1,8 @@
 # FYU Spellcheck
 
-An [Obsidian](https://obsidian.md) plugin to make spellcheck easier.
+An [Obsidian](https://obsidian.md) plugin to make spellcheck less frustrating in Obsidian.
 
-Adds a command that opens a modal to replace the current word with an alternative spelling.
+Adds a single command "Check Current Word" that opens a modal to replace the current word with an alternative spelling.
 
 Uses [typo.js](https://www.npmjs.com/package/typo-js), and it's inbuilt en_US dictionaries.
 
