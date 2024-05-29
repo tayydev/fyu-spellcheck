@@ -8,8 +8,8 @@ import {
     Setting,
 } from "obsidian";
 import Typo from "typo-js";
-import aff from "./dic/en_US.aff";
-import dic from "./dic/en_US.dic";
+import aff from "./dictionary/en_US.aff";
+import dic from "./dictionary/en_US.dic";
 
 export default class MyPlugin extends Plugin {
     dictionary: Typo;
