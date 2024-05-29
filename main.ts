@@ -2,13 +2,14 @@ import {
     App,
     Editor,
     EditorPosition,
-    MarkdownView,
     Plugin,
     PluginSettingTab,
     Setting,
 } from "obsidian";
 import Typo from "typo-js";
-import { aff, dic } from "./data";
+import aff from "./dic/en_US.aff";
+import dic from "./dic/en_US.dic";
+// import { aff, dic } from "./data";
 
 export default class MyPlugin extends Plugin {
     dictionary: Typo;
@@ -53,7 +54,7 @@ export default class MyPlugin extends Plugin {
         this.addCommand({
             id: "spellcheck-leftmost",
             name: "Spellcheck leftmost word",
-            editorCallback: (editor: Editor, _: MarkdownView) => {
+            editorCallback: (editor: Editor) => {
                 this.correctWord(true, editor);
             },
         });

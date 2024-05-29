@@ -38,10 +38,10 @@ const context = await esbuild.context({
     sourcemap: prod ? false : "inline",
     treeShaking: true,
     outfile: "main.js",
-	loader: {
-		".aff": "dataurl",
-		".dic": "dataurl"
-	},
+    loader: {
+        ".aff": "text",
+        ".dic": "text",
+    },
 });
 
 if (prod) {
