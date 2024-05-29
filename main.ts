@@ -2,6 +2,7 @@ import {
     App,
     Editor,
     EditorPosition,
+    FuzzySuggestModal,
     Plugin,
     PluginSettingTab,
     Setting,
@@ -9,53 +10,41 @@ import {
 import Typo from "typo-js";
 import aff from "./dic/en_US.aff";
 import dic from "./dic/en_US.dic";
-// import { aff, dic } from "./data";
 
 export default class MyPlugin extends Plugin {
     dictionary: Typo;
-
-    correctWord(fromLeft: boolean, editor: Editor) {
-        const cursor: EditorPosition = editor.getCursor();
-        const line: string = editor.getLine(cursor.line);
-        const dict = this.dictionary;
-
-        function didReplace(word: string): boolean {
-            // console.log("Processing Word: ", word)
-            if (dict.check(word)) return false;
-            else {
-                const corrected: string = dict.suggest(word).first() ?? word;
-                const updatedLine: string = line.replace(word, corrected);
-                editor.replaceRange(
-                    updatedLine,
-                    { line: cursor.line, ch: 0 },
-                    { line: cursor.line, ch: line.length }
-                );
-                return true;
-            }
-        }
-
-        const splitWords = line.split(/\s+/);
-
-        if (fromLeft) {
-            for (let i = 0; i < splitWords.length; i++) {
-                if (didReplace(splitWords[i])) break;
-            }
-        } else {
-            for (let i = splitWords.length - 1; i >= 0; i--) {
-                if (didReplace(splitWords[i])) break;
-            }
-        }
-    }
 
     async onload() {
         //load library when plugin is loaded
         this.dictionary = new Typo("en_US", aff, dic, {});
 
         this.addCommand({
-            id: "spellcheck-leftmost",
-            name: "Spellcheck leftmost word",
-            editorCallback: (editor: Editor) => {
-                this.correctWord(true, editor);
+            id: "spellcheck-current",
+            name: "Check Current Word",
+            editorCheckCallback: (checking: boolean, editor: Editor) => {
+                const cursor: EditorPosition = editor.getCursor();
+                const wordRange = editor.wordAt(cursor);
+                if (wordRange == null) return false;
+                const word = editor.getRange(wordRange.from, wordRange.to);
+                const dict = this.dictionary;
+
+                /**
+                 * At this point we have a valid word, even if its "correctly" spelled we want to pop up a modal
+                 * so that the user can see if there are any suggestions, and also for future proofing when we
+                 * have LLM correction
+                 */
+                if (checking) return true;
+
+                const options = dict.suggest(word);
+                new WordSelectModal(this.app, options, (corrected: string) => {
+                    editor.replaceRange(
+                        corrected,
+                        { line: cursor.line, ch: wordRange.from.ch },
+                        { line: cursor.line, ch: wordRange.to.ch }
+                    );
+                }).open();
+
+                return true;
             },
         });
 
@@ -64,6 +53,33 @@ export default class MyPlugin extends Plugin {
     }
 
     onunload() {}
+}
+
+export class WordSelectModal extends FuzzySuggestModal<string> {
+    options: string[];
+    replaceCallback: (item: string) => void;
+    constructor(
+        app: App,
+        options: string[],
+        replaceCallback: (item: string) => void
+    ) {
+        super(app);
+        this.options = options;
+        this.replaceCallback = replaceCallback;
+    }
+
+    getItemText(item: string): string {
+        return item;
+    }
+
+    getItems(): string[] {
+        return this.options;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onChooseItem(item: string, _ignored: MouseEvent | KeyboardEvent): void {
+        this.replaceCallback(item);
+    }
 }
 
 class fyuSpellcheckSettingsTab extends PluginSettingTab {
@@ -80,7 +96,7 @@ class fyuSpellcheckSettingsTab extends PluginSettingTab {
         containerEl.empty();
 
         new Setting(containerEl)
-            .setName("Settings are on their way...")
+            .setName("Configuration is on it's way...")
             .setDesc("Eventually...");
     }
 }
