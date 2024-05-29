@@ -1,10 +1,10 @@
 {
-	"id": "fyu-spellcheck",
-	"name": "FYU Spellcheck",
-	"version": "1.0.0",
-	"minAppVersion": "1.0.0",
-	"description": "Make spellcheck less frustrating in Obsidian.",
-	"author": "tayydev",
-	"authorUrl": "https://github.com/tayydev",
-	"isDesktopOnly": true
+    "id": "fyu-spellcheck",
+    "name": "FYU Spellcheck",
+    "version": "1.0.0",
+    "minAppVersion": "1.0.0",
+    "description": "Make spellcheck less frustrating in Obsidian.",
+    "author": "tayydev",
+    "authorUrl": "https://github.com/tayydev",
+    "isDesktopOnly": true
 }
