@@ -10,16 +10,7 @@ import {
 import Typo from "typo-js";
 import {aff, dic} from "./data";
 
-interface FYUSpellcheckSettings {
-	// mySetting: string;
-}
-
-const DEFAULT_SETTINGS: FYUSpellcheckSettings = {
-	// mySetting: 'default'
-}
-
 export default class MyPlugin extends Plugin {
-	settings: FYUSpellcheckSettings;
 	dictionary: Typo
 
 	correctWord(fromLeft: boolean, editor: Editor) {
@@ -53,8 +44,6 @@ export default class MyPlugin extends Plugin {
 	}
 
 	async onload() {
-		await this.loadSettings();
-
 		//load library when plugin is loaded
 		this.dictionary = new Typo(
 			'en_US',
@@ -77,14 +66,6 @@ export default class MyPlugin extends Plugin {
 
 	onunload() {
 
-	}
-
-	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-	}
-
-	async saveSettings() {
-		await this.saveData(this.settings);
 	}
 }
 
