@@ -1,6 +1,6 @@
 {
-    "id": "fyu-spellcheck",
-    "name": "FYU Spellcheck",
+    "id": "strong-spellcheck",
+    "name": "Strong Spellcheck",
     "version": "1.0.0",
     "minAppVersion": "1.0.0",
     "description": "Make spellcheck less frustrating in Obsidian.",

@@ -11,7 +11,7 @@ import Typo from "typo-js";
 import aff from "./dictionary/en_US.aff";
 import dic from "./dictionary/en_US.dic";
 
-export default class MyPlugin extends Plugin {
+export default class StrongSpellcheck extends Plugin {
     dictionary: Typo;
 
     async onload() {
@@ -49,7 +49,7 @@ export default class MyPlugin extends Plugin {
         });
 
         // This adds a settings tab so the user can configure various aspects of the plugin
-        this.addSettingTab(new fyuSpellcheckSettingsTab(this.app, this));
+        this.addSettingTab(new StrongSpellCheckSettingsTab(this.app, this));
     }
 
     onunload() {}
@@ -82,10 +82,10 @@ export class WordSelectModal extends FuzzySuggestModal<string> {
     }
 }
 
-class fyuSpellcheckSettingsTab extends PluginSettingTab {
-    plugin: MyPlugin;
+class StrongSpellCheckSettingsTab extends PluginSettingTab {
+    plugin: StrongSpellcheck;
 
-    constructor(app: App, plugin: MyPlugin) {
+    constructor(app: App, plugin: StrongSpellcheck) {
         super(app, plugin);
         this.plugin = plugin;
     }

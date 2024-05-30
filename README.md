@@ -1,4 +1,4 @@
-# FYU Spellcheck
+# Strong Spellcheck
 
 An [Obsidian](https://obsidian.md) plugin to make spellcheck less frustrating in Obsidian.
 
