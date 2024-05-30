@@ -36,6 +36,7 @@
         "dictionary-en": "^4.0.0",
         "hunspell-spellchecker": "^1.0.2",
         "nodehun": "^3.0.2",
+        "openai": "^4.47.2",
         "typo-js": "^1.2.4"
     },
     "type": "module"
